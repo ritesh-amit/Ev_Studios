@@ -1,8 +1,15 @@
+import 'package:ev/upload.dart';
 import 'package:flutter/material.dart';
 import 'Utils/SizeConfig.dart';
 import 'Utils/constants.dart';
+import 'videoP.dart';
 
-class MyHomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -11,102 +18,124 @@ class MyHomePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 5,
-          shadowColor: Colors.black,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add_a_photo, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return Upload();
+                },
+              ),
+            );
+          },
         ),
-        drawer: Drawer(),
+        /* appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Enjoy Videos",
+            style: txtS(Colors.blue, 20, FontWeight.w700),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 3,
+          shadowColor: Colors.black,
+        ),*/
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: b * 10),
-            child: Column(
-              children: [
-                sh(30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    cont(Icons.info, 'Tourist Information'),
-                    cont(Icons.restaurant, 'Where to Eat?'),
-                  ],
-                ),
-                sh(20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    cont(Icons.bedtime, 'Where to Sleep?'),
-                    cont(Icons.compass_calibration, 'Where to Visit?'),
-                  ],
-                ),
-                sh(20),
-                Text(
-                  "EVENTS",
-                  style: txtS(wc, 24, FontWeight.w800),
-                ),
-                sh(10),
-                ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemCount: 2,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return Column(
-                      children: [
-                        event(),
-                        sh(10),
-                      ],
-                    );
-                  },
-                ),
-                Text(
-                  "ACTIVITIES",
-                  style: txtS(wc, 24, FontWeight.w800),
-                ),
-                sh(20),
-                /*GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: b * 20,
-                    mainAxisSpacing: h * 20,
-                    childAspectRatio: 1.5,
-                  ),
-                  itemCount: 6,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return activity();
-                  },
-                ),*/
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    activity(),
-                    activity(),
-                  ],
-                ),
-                sh(20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    activity(),
-                    activity(),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          child: Column(children: [
+            sh(10),
+            ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 25,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => Container(
+                          padding: EdgeInsets.symmetric(horizontal: b * 10),
+                          margin: EdgeInsets.only(top: h * 25),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(b * 20),
+                              topRight: Radius.circular(b * 20),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              sh(50),
+                              Container(
+                                height: h * 350,
+                                width: SizeConfig.screenWidth,
+                                child: VideoPlayerScreen(),
+                              ),
+                              sh(30),
+                              Text(
+                                'Title Title Title Title Title Title Title Title Title ',
+                                textAlign: TextAlign.center,
+                                style: txtS(Colors.black, 18, FontWeight.w500),
+                              ),
+                              sh(30),
+                              Text(
+                                'Title Title Title Title Title Title Title Title Title ',
+                                textAlign: TextAlign.center,
+                                style: txtS(Colors.black, 16, FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: SizeConfig.screenHeight - (h * 10),
+                      width: SizeConfig.screenWidth,
+                      child: Stack(alignment: Alignment.topCenter, children: [
+                        VideoPlayerScreen(),
+                        Positioned(
+                          bottom: SizeConfig.screenHeight * 0.04,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: SizeConfig.screenWidth,
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: b * 10),
+                                child: Text(
+                                  'Title Title Title Title Title Title Title Title Title ',
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      txtS(Colors.black, 18, FontWeight.w500),
+                                ),
+                              ),
+                              sh(10),
+                              Container(
+                                width: SizeConfig.screenWidth,
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: b * 10),
+                                child: Text(
+                                  'Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title ',
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      txtS(Colors.black, 16, FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ),
+                  );
+                }),
+          ]),
         ),
       ),
-    );
-  }
-
-  TextStyle txtS(Color col, double siz, FontWeight wg) {
-    return TextStyle(
-      color: col,
-      fontWeight: wg,
-      fontSize: SizeConfig.screenWidth * siz / 400,
     );
   }
 
@@ -114,147 +143,11 @@ class MyHomePage extends StatelessWidget {
     return SizedBox(height: SizeConfig.screenHeight * h / 800);
   }
 
-  Widget activity() {
-    var b = SizeConfig.screenWidth / 400;
-    var h = SizeConfig.screenHeight / 800;
-
-    return InkWell(
-      child: Container(
-        width: SizeConfig.screenWidth * 0.45,
-        height: h * 110,
-        padding: EdgeInsets.only(top: h * 20),
-        decoration: BoxDecoration(
-          color: wc,
-          image: DecorationImage(
-            image: AssetImage('images/p1.jpg'),
-            fit: BoxFit.fill,
-          ),
-          borderRadius: BorderRadius.circular(b * 30),
-        ),
-        child: Column(
-          children: [
-            Spacer(),
-            Container(
-              alignment: Alignment.center,
-              width: SizeConfig.screenWidth * 0.45,
-              height: h * 30,
-              decoration: BoxDecoration(
-                color: qc,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(b * 30),
-                  bottomRight: Radius.circular(b * 30),
-                  topLeft: Radius.circular(b * 10),
-                  topRight: Radius.circular(b * 10),
-                ),
-              ),
-              child: Text(
-                "None",
-                style: txtS(Colors.white, 16, FontWeight.w600),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget event() {
-    var b = SizeConfig.screenWidth / 400;
-    var h = SizeConfig.screenHeight / 800;
-
-    return Container(
-      width: SizeConfig.screenWidth * 0.9,
-      height: h * 100,
-      decoration: BoxDecoration(
-        color: qc,
-        borderRadius: BorderRadius.circular(b * 30),
-      ),
-      child: Row(
-        children: [
-          SizedBox(width: b * 15),
-          Column(
-            children: [
-              Text(
-                "19",
-                style: txtS(Colors.white, 55, FontWeight.w800),
-              ),
-              Text(
-                "WED",
-                style: txtS(Colors.white, 16, FontWeight.w600),
-              ),
-            ],
-          ),
-          SizedBox(width: b * 10),
-          Container(
-            width: SizeConfig.screenWidth * 0.015,
-            height: h * 85,
-            decoration: BoxDecoration(
-              color: wc,
-              borderRadius: BorderRadius.circular(b * 30),
-            ),
-          ),
-          SizedBox(width: b * 20),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Name of the event",
-                style: txtS(Colors.white, 18, FontWeight.w800),
-              ),
-              Text(
-                "Location of the event",
-                style: txtS(Colors.white, 18, FontWeight.w800),
-              ),
-              Text(
-                "About it event",
-                style: txtS(Colors.white, 18, FontWeight.w800),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget cont(ico, String txt) {
-    var b = SizeConfig.screenWidth / 400;
-    var h = SizeConfig.screenHeight / 800;
-
-    return InkWell(
-      child: Container(
-        width: SizeConfig.screenWidth * 0.45,
-        height: h * 110,
-        padding: EdgeInsets.only(top: h * 20),
-        decoration: BoxDecoration(
-          color: qc,
-          borderRadius: BorderRadius.circular(b * 30),
-        ),
-        child: Column(
-          children: [
-            Icon(ico, color: Colors.white, size: b * 45),
-            Spacer(),
-            Container(
-              alignment: Alignment.center,
-              width: SizeConfig.screenWidth * 0.45,
-              height: h * 30,
-              decoration: BoxDecoration(
-                color: wc,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(b * 30),
-                  bottomRight: Radius.circular(b * 30),
-                  topLeft: Radius.circular(b * 10),
-                  topRight: Radius.circular(b * 10),
-                ),
-              ),
-              child: Text(
-                txt,
-                style: txtS(Colors.white, 16, FontWeight.w600),
-              ),
-            ),
-          ],
-        ),
-      ),
+  TextStyle txtS(Color col, double siz, FontWeight wg) {
+    return TextStyle(
+      color: col,
+      fontWeight: wg,
+      fontSize: SizeConfig.screenWidth * siz / 400,
     );
   }
 }
