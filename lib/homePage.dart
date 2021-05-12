@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
-        /* appBar: AppBar(
+        appBar: AppBar(
           centerTitle: true,
           title: Text(
             "Enjoy Videos",
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           elevation: 3,
           shadowColor: Colors.black,
-        ),*/
+        ),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(children: [
@@ -47,51 +47,14 @@ class _HomePageState extends State<HomePage> {
             ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 25,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (context) => Container(
-                          padding: EdgeInsets.symmetric(horizontal: b * 10),
-                          margin: EdgeInsets.only(top: h * 25),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(b * 20),
-                              topRight: Radius.circular(b * 20),
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              sh(50),
-                              Container(
-                                height: h * 350,
-                                width: SizeConfig.screenWidth,
-                                child: VideoPlayerScreen(),
-                              ),
-                              sh(30),
-                              Text(
-                                'Title Title Title Title Title Title Title Title Title ',
-                                textAlign: TextAlign.center,
-                                style: txtS(Colors.black, 18, FontWeight.w500),
-                              ),
-                              sh(30),
-                              Text(
-                                'Title Title Title Title Title Title Title Title Title ',
-                                textAlign: TextAlign.center,
-                                style: txtS(Colors.black, 16, FontWeight.w400),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                      showBottomSheet();
                     },
                     child: Container(
-                      height: SizeConfig.screenHeight - (h * 10),
+                      height: SizeConfig.screenHeight - (h * 60),
                       width: SizeConfig.screenWidth,
                       child: Stack(alignment: Alignment.topCenter, children: [
                         VideoPlayerScreen(),
@@ -104,26 +67,12 @@ class _HomePageState extends State<HomePage> {
                                 padding:
                                     EdgeInsets.symmetric(horizontal: b * 10),
                                 child: Text(
-                                  'Title Title Title Title Title Title Title Title Title ',
+                                  'Title ',
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style:
                                       txtS(Colors.black, 18, FontWeight.w500),
-                                ),
-                              ),
-                              sh(10),
-                              Container(
-                                width: SizeConfig.screenWidth,
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: b * 10),
-                                child: Text(
-                                  'Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title ',
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style:
-                                      txtS(Colors.black, 16, FontWeight.w400),
                                 ),
                               ),
                             ],
@@ -148,6 +97,50 @@ class _HomePageState extends State<HomePage> {
       color: col,
       fontWeight: wg,
       fontSize: SizeConfig.screenWidth * siz / 400,
+    );
+  }
+
+  showBottomSheet() {
+    SizeConfig().init(context);
+    var b = SizeConfig.screenWidth / 400;
+    var h = SizeConfig.screenHeight / 800;
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: b * 10),
+        margin: EdgeInsets.only(top: h * 25),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(b * 20),
+            topRight: Radius.circular(b * 20),
+          ),
+        ),
+        child: Column(
+          children: [
+            sh(50),
+            Container(
+              height: h * 350,
+              width: SizeConfig.screenWidth,
+              child: VideoPlayerScreen(),
+            ),
+            sh(30),
+            Text(
+              'Title ',
+              textAlign: TextAlign.center,
+              style: txtS(Colors.black, 18, FontWeight.w500),
+            ),
+            sh(30),
+            Text(
+              'Description ',
+              textAlign: TextAlign.center,
+              style: txtS(Colors.black, 16, FontWeight.w400),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -21,16 +21,18 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
     // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller.initialize();
-
     // Use the controller to loop the video.
     _controller.setLooping(true);
+
+    setState(() {
+      //_controller.play();
+    });
 
     super.initState();
   }
 
   @override
   void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
     _controller.dispose();
 
     super.dispose();

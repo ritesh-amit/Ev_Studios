@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "256169883532",
+    "project_id": "filmspace-6a4d4",
+    "storage_bucket": "filmspace-6a4d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256169883532:android:3017829d3aaed30d6388a9",
+        "android_client_info": {
+          "package_name": "com.example.ev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256169883532-m0ggv8hnogmghr755lo2m1plmh4aolgc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC14GNDz6_YlmUJ9yafh32hvmxbV7uvJXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256169883532-m0ggv8hnogmghr755lo2m1plmh4aolgc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
