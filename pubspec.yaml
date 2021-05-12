@@ -29,8 +29,8 @@ dependencies:
   firebase_storage: ^8.0.6
   flutter_animated_dialog: null
   image_picker: ^0.7.5
-  tiktoklikescroller: ^0.1.6
-  video_player: null
+  video_player:
+  tiktoklikescroller: ^0.1.6  
 
 dev_dependencies:
   flutter_test:
