@@ -30,7 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^0.7.5
   flutter_animated_dialog:
-  video_player:  
+  video_player:
+  tiktoklikescroller: ^0.1.6  
 
 dev_dependencies:
   flutter_test:
