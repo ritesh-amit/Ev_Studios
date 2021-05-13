@@ -64,24 +64,21 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             if (dataList.isEmpty)
-              return Container(
-                width: 10,
-                height: 10,
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.white,
-                ),
+              return Center(
+                child: Text("No Video Available"),
               );
             else
               return InkWell(
                 onTap: () {
                   showBottomSheet(dataList[index].title, dataList[index].des,
-                      dataList[index].videoLink);
+                      dataList[index].videoLink, dataList[index].thumbnail);
                 },
                 child: Container(
                   height: SizeConfig.screenHeight - (h * 10),
                   width: SizeConfig.screenWidth,
                   child: Stack(alignment: Alignment.center, children: [
-                    VideoPlayerScreen(dataList[index].videoLink),
+                    VideoPlayerScreen(
+                        dataList[index].videoLink, dataList[index].thumbnail),
                     Positioned(
                       bottom: SizeConfig.screenHeight * 0.015,
                       child: Column(
@@ -128,18 +125,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  showBottomSheet(String title, String des, String link) {
+  showBottomSheet(
+      String title, String des, String videoLink, String thumbLink) {
     SizeConfig().init(context);
     var b = SizeConfig.screenWidth / 400;
     var h = SizeConfig.screenHeight / 800;
     return showModalBottomSheet(
       context: context,
+      enableDrag: true,
       isScrollControlled: true,
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff313131),
       builder: (context) => Container(
         margin: EdgeInsets.only(top: h * 40),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color(0xff313131),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(b * 20),
             topRight: Radius.circular(b * 20),
@@ -148,8 +147,9 @@ class _HomePageState extends State<HomePage> {
         child: Container(
           height: SizeConfig.screenHeight,
           width: SizeConfig.screenWidth,
+          color: Color(0xff313131),
           child: Stack(alignment: Alignment.center, children: [
-            VideoPlayerScreen(link),
+            VideoPlayerScreen(videoLink, thumbLink),
             Positioned(
               bottom: SizeConfig.screenHeight * 0.02,
               child: Column(

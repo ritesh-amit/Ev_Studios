@@ -5,7 +5,8 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String videoLink;
-  VideoPlayerScreen(this.videoLink);
+  final String thumbLink;
+  VideoPlayerScreen(this.videoLink, this.thumbLink);
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }
@@ -18,7 +19,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void initState() {
     _controller = VideoPlayerController.network(widget.videoLink);
     _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(false);
+    _controller.setLooping(true);
 
     setState(() {
       _controller.play();
@@ -46,9 +47,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               child: VideoPlayer(_controller),
             );
           } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Center(child: Image.network(widget.thumbLink));
           }
         },
       ),

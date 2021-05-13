@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'Utils/SizeConfig.dart';
 import 'Utils/constants.dart';
@@ -32,6 +33,9 @@ class _UploadState extends State<Upload> {
     SizeConfig().init(context);
     var b = SizeConfig.screenWidth / 400;
     var h = SizeConfig.screenHeight / 800;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark));
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
