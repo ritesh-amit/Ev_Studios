@@ -27,11 +27,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^1.1.1
   firebase_storage: ^8.0.6
-  flutter_animated_dialog: null
   image_picker: ^0.7.5
   video_player:
-  tiktoklikescroller: ^0.1.6  
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

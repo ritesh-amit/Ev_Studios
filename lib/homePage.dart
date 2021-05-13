@@ -3,9 +3,7 @@ import 'package:ev/upload.dart';
 import 'package:ev/videoModel.dart';
 import 'package:flutter/material.dart';
 import 'Utils/SizeConfig.dart';
-import 'Utils/constants.dart';
 import 'videoP.dart';
-import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -58,66 +56,21 @@ class _HomePageState extends State<HomePage> {
             style: txtS(Colors.white, 20, FontWeight.w700),
           ),
           backgroundColor: Colors.transparent,
-          elevation: 3,
+          elevation: 0,
           shadowColor: Colors.black,
         ),
-        body:
-            /*SingleChildScrollView(
+        body: PageView.builder(
           physics: BouncingScrollPhysics(),
-          child: Column(children: [
-            sh(10),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      showBottomSheet();
-                    },
-                    child: Container(
-                      height: SizeConfig.screenHeight - (h * 60),
-                      width: SizeConfig.screenWidth,
-                      child: Stack(alignment: Alignment.topCenter, children: [
-                        VideoPlayerScreen(),
-                        Positioned(
-                          bottom: SizeConfig.screenHeight * 0.04,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: SizeConfig.screenWidth,
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: b * 10),
-                                child: Text(
-                                  'Title ',
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style:
-                                      txtS(Colors.black, 18, FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ),
-                  );
-                }),
-          ]),
-        ),*/
-            PageView.builder(
-          physics: BouncingScrollPhysics(),
-
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             if (dataList.isEmpty)
               return Container(
-                  width: 10,
-                  height: 10,
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                  ));
+                width: 10,
+                height: 10,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.white,
+                ),
+              );
             else
               return InkWell(
                 onTap: () {
@@ -127,24 +80,29 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   height: SizeConfig.screenHeight - (h * 10),
                   width: SizeConfig.screenWidth,
-                  child: Stack(alignment: Alignment.topCenter, children: [
+                  child: Stack(alignment: Alignment.center, children: [
                     VideoPlayerScreen(dataList[index].videoLink),
                     Positioned(
-                      bottom: SizeConfig.screenHeight * 0.04,
+                      bottom: SizeConfig.screenHeight * 0.015,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
+                            alignment: Alignment.centerLeft,
                             width: SizeConfig.screenWidth,
-                            padding: EdgeInsets.symmetric(horizontal: b * 10),
+                            padding: EdgeInsets.symmetric(horizontal: b * 15),
                             child: Text(
                               dataList[index].title,
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: txtS(Colors.white, 18, FontWeight.w500),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontStyle: FontStyle.italic,
+                                fontSize: b * 18,
+                              ),
                             ),
                           ),
-                          sh(10),
                         ],
                       ),
                     ),
@@ -177,10 +135,9 @@ class _HomePageState extends State<HomePage> {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black,
       builder: (context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: b * 10),
-        margin: EdgeInsets.only(top: h * 25),
+        margin: EdgeInsets.only(top: h * 40),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -188,27 +145,48 @@ class _HomePageState extends State<HomePage> {
             topRight: Radius.circular(b * 20),
           ),
         ),
-        child: Column(
-          children: [
-            sh(50),
-            Container(
-              height: h * 350,
-              width: SizeConfig.screenWidth,
-              child: VideoPlayerScreen(link),
+        child: Container(
+          height: SizeConfig.screenHeight,
+          width: SizeConfig.screenWidth,
+          child: Stack(alignment: Alignment.center, children: [
+            VideoPlayerScreen(link),
+            Positioned(
+              bottom: SizeConfig.screenHeight * 0.02,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    width: SizeConfig.screenWidth,
+                    padding: EdgeInsets.symmetric(horizontal: b * 15),
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: txtS(Colors.white, 18, FontWeight.w500),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    width: SizeConfig.screenWidth,
+                    padding: EdgeInsets.symmetric(horizontal: b * 15),
+                    child: Text(
+                      des,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontStyle: FontStyle.italic,
+                        fontSize: b * 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            sh(30),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: txtS(Colors.black, 18, FontWeight.w500),
-            ),
-            sh(30),
-            Text(
-              des,
-              textAlign: TextAlign.center,
-              style: txtS(Colors.black, 16, FontWeight.w400),
-            ),
-          ],
+          ]),
         ),
       ),
     );
