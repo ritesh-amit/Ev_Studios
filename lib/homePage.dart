@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    getVideoData();
+    // getVideoData();
   }
 
   @override
@@ -59,56 +59,68 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           shadowColor: Colors.black,
         ),
-        body: PageView.builder(
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            if (dataList.isEmpty)
-              return Center(
-                child: Text("No Video Available"),
-              );
-            else
-              return InkWell(
-                onTap: () {
-                  showBottomSheet(dataList[index].title, dataList[index].des,
-                      dataList[index].videoLink, dataList[index].thumbnail);
-                },
-                child: Container(
-                  height: SizeConfig.screenHeight - (h * 10),
-                  width: SizeConfig.screenWidth,
-                  child: Stack(alignment: Alignment.center, children: [
-                    VideoPlayerScreen(
-                        dataList[index].videoLink, dataList[index].thumbnail),
-                    Positioned(
-                      bottom: SizeConfig.screenHeight * 0.015,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            width: SizeConfig.screenWidth,
-                            padding: EdgeInsets.symmetric(horizontal: b * 15),
-                            child: Text(
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('videos').snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.active)
+                return PageView.builder(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    if (!snapshot.hasData)
+                      return Center(
+                        child: Text("No Video Available"),
+                      );
+                    else
+                      return InkWell(
+                        onTap: () {
+                          showBottomSheet(
                               dataList[index].title,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontStyle: FontStyle.italic,
-                                fontSize: b * 18,
+                              dataList[index].des,
+                              dataList[index].videoLink,
+                              dataList[index].thumbnail);
+                        },
+                        child: Container(
+                          height: SizeConfig.screenHeight - (h * 10),
+                          width: SizeConfig.screenWidth,
+                          child: Stack(alignment: Alignment.center, children: [
+                            VideoPlayerScreen(
+                                snapshot.data.docs[index]['videoLink'],
+                                snapshot.data.docs[index]['thumbLink']),
+                            Positioned(
+                              bottom: SizeConfig.screenHeight * 0.015,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    width: SizeConfig.screenWidth,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: b * 15),
+                                    child: Text(
+                                      snapshot.data.docs[index]['title'],
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: b * 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]),
-                ),
-              );
-          },
-          itemCount: dataList.length, // Can be null
-        ),
+                          ]),
+                        ),
+                      );
+                  },
+                  itemCount: snapshot.data.size, // Can be null
+                );
+              else
+                return CircularProgressIndicator();
+            }),
       ),
     );
   }
@@ -194,6 +206,8 @@ class _HomePageState extends State<HomePage> {
 
   getVideoData() async {
     FirebaseFirestore.instance.collection('videos').snapshots().listen((snap) {
+      String title = snap.docs[0]['title'];
+
       for (var i in snap.docs) {
         VideoModel tempModel = VideoModel(
             i.data()['title'],

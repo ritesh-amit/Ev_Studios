@@ -237,26 +237,31 @@ class _UploadState extends State<Upload> {
   uploadToDB(
       String title, String des, String videoLink, String thumbLink) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    firestore.collection("videos").doc().set({
+
+    Map<String, dynamic> map = {
       'title': title,
       'des': des,
       'timestamp': FieldValue.serverTimestamp(),
       'videoLink': videoLink,
       'thumbLink': thumbLink
-    });
+    };
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Video Uploaded Successfully"),
-      backgroundColor: Colors.green,
-    ));
+    firestore.collection("videos").doc().set(map).catchError((error) {
+      print(error);
+    }).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Video Uploaded Successfully"),
+        backgroundColor: Colors.green,
+      ));
 
-    setState(() {
-      getImage1 = false;
-      getVideo = false;
-      titleController.text = "";
-      descriptionController.text = "";
-      isUploadPressed = false;
-      _videoPlayerController.dispose();
+      setState(() {
+        getImage1 = false;
+        getVideo = false;
+        titleController.text = "";
+        descriptionController.text = "";
+        isUploadPressed = false;
+        _videoPlayerController.dispose();
+      });
     });
   }
 
